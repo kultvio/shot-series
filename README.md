@@ -8,7 +8,7 @@
 
 ![Animated walkthrough showing a task being added and then marked complete. F8 saves each state as a numbered PNG.](media/demo-en.gif)
 
-Building a step-by-step guide? Select a region once, then press **F8** after each step. ShotSeries saves the screenshots in order as `1.png`, `2.png`, and so on in the current series folder.
+Collect screenshots for step-by-step guides, lab reports, and bug reports. Select a region once and press **F8** whenever you want to save the current state. ShotSeries keeps each series in its own folder and numbers the files `1.png`, `2.png`, and so on.
 
 ## How it works
 
