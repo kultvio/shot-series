@@ -1,43 +1,59 @@
 <div align="center">
-  <img src="media/icon.png" width="112" height="112" alt="Значок ShotSeries" />
+  <img src="media/icon.png" width="96" height="96" alt="ShotSeries app icon" />
   <h1>ShotSeries</h1>
-  <p><strong>Одна область, одна клавиша, отдельная папка для каждой серии.</strong></p>
-  <p>Нативная утилита для строки меню macOS 14+ · Swift, AppKit и ScreenCaptureKit</p>
+  <p><strong>One region. One key. A folder for every series.</strong></p>
+  <p>Native screenshot tools for macOS and Windows</p>
+  <p>English · <a href="README.ru.md">Русский</a></p>
 </div>
 
-![Схема работы ShotSeries с видимой рамкой и файлами 1.png и 2.png в отдельных сериях](media/demo.gif)
+![Illustration of the capture frame, F8 saving numbered screenshots, and the plus button creating a new series.](media/demo-en.gif)
 
-Выделите область экрана и продолжайте работать в окне под рамкой. Нажимайте **F8** после каждого шага, чтобы сохранить его в отдельный PNG. Это удобно, когда нужно собрать иллюстрации для лабораторной работы, инструкции или баг-репорта.
+ShotSeries keeps a resizable frame on screen while you work in the app underneath it. Press **F8** to capture the same area after each step, then use **+** to start a fresh series. It's built for collecting screenshots for tutorials, lab reports, and bug reports.
 
-## Сборка и запуск
+## How it works
 
-Для сборки нужны macOS и инструменты Xcode 16 или новее со Swift 6. Готовое приложение запускается на macOS 14 и новее.
+1. **Select a region.** Open ShotSeries from the macOS menu bar or the Windows notification area. Choose **Select area** (**Выделить область**) and drag over the part of the screen to capture. Drag any edge or corner to resize the frame later.
+2. **Start a series.** Choose a parent folder and press **+**. ShotSeries creates and selects a subfolder such as `Серия 1` (Series 1). Pick an existing series from the list to switch back.
+3. **Capture with F8.** Files go straight into the selected series as `1.png`, `2.png`, and so on. An existing folder picks up after its highest numbered PNG.
+
+Clicks and scrolling pass through the shade to the app underneath. The resize handles stay interactive. You can hide the frame and keep capturing the saved region. The region belongs to one display. ShotSeries saves the selected region, series, and hotkey between launches.
+
+## Build from source
 
 ```sh
 git clone https://github.com/kultvio/shot-series.git
 cd shot-series
+```
+
+### macOS
+
+ShotSeries runs on macOS 14 or newer. Build with Xcode 16 or newer, or the corresponding Command Line Tools with Swift 6.
+
+```sh
 ./build.sh
 open build/ShotSeries.app
 ```
 
-## Как пользоваться
+On the first capture, grant ShotSeries screen recording access in System Settings. If macOS asks you to restart ShotSeries, reopen it and press F8 again. [Apple’s screen recording settings guide](https://support.apple.com/guide/mac-help/mchld6aa7d23/mac)
 
-1. Откройте **ShotSeries** из строки меню и нажмите **Выделить область**. Потяните за сторону или угол рамки, чтобы изменить границы. Esc или правый клик отменяют новое выделение.
-2. Нажмите **Выбрать…**, укажите основной каталог и нажмите **+**. Приложение создаст и выберет папку `Серия 1`. Между существующими сериями можно переключаться в выпадающем списке.
-3. Нажмите **F8**. При первом снимке выдайте разрешение на запись экрана в Системных настройках. Если macOS предложит перезапустить приложение, перезапустите его и повторите снимок.
+The frame can stay visible in full-screen Spaces and Split View. If the top row controls playback or brightness, try **Fn + F8** or change the hotkey next to **Capture** (**Снять кадр**).
 
-В каждой новой серии нумерация начинается с `1.png`. Если в выбранной папке уже есть пронумерованные PNG, ShotSeries продолжает с номера после самого большого.
+### Windows
 
-Клики и прокрутка проходят к рабочему окну внутри выделения и за его пределами. Рамка остаётся поверх полноэкранных окон и Split View. Её можно скрыть кнопкой с глазом и продолжить снимать ту же область. Выделение привязано к одному дисплею.
+On Windows 11 x64, install Rust 1.85 or newer and Visual Studio Build Tools with the **Desktop development with C++** workload. [Rust installation guide](https://doc.rust-lang.org/book/ch01-01-installation.html)
 
-Если верхний ряд управляет воспроизведением или яркостью, используйте **Fn + F8**. Клавишу можно поменять в меню рядом с кнопкой **Снять кадр**. Область, серия и клавиша запоминаются между запусками.
+```powershell
+cd Windows
+cargo run --release --locked
+```
 
-## Как устроено
+Cargo builds the executable at `Windows\target\release\shotseries.exe`, relative to the repository root. The local build is unsigned, so Smart App Control may block it depending on the PC's policy. [Microsoft's Smart App Control guide](https://learn.microsoft.com/windows/apps/develop/smart-app-control/overview)
 
-- [SelectionOverlay.swift](Sources/SelectionOverlay.swift) рисует рамку и затемнение. Узкие панели перехватывают перетаскивание только возле границ.
-- [Capture.swift](Sources/Capture.swift) получает фрагмент экрана через ScreenCaptureKit. Окна ShotSeries и курсор исключаются из захвата.
-- [ScreenshotFiles.swift](Sources/ScreenshotFiles.swift) создаёт серии и сохраняет PNG в выбранный каталог без перезаписи существующих файлов.
+## Project layout
 
-## English summary
+| Platform | Implementation | Entry points |
+| --- | --- | --- |
+| macOS | Swift, AppKit, SwiftUI, ScreenCaptureKit | [Overlay](Sources/SelectionOverlay.swift), [capture](Sources/Capture.swift), [storage](Sources/ScreenshotFiles.swift) |
+| Windows | Rust, Win32, GDI and GDI+ | [Controls](Windows/src/controls.rs), [overlay](Windows/src/overlay.rs), [capture](Windows/src/desktop.rs), [storage](Windows/src/storage.rs) |
 
-ShotSeries is a macOS menu bar app for taking repeated screenshots of a fixed region. Keep a resizable frame visible while you work, press **F8** to capture, and use **+** to start a new folder with its own numbered PNG sequence. Build with Swift 6 and run on macOS 14 or later.
+Captures are saved locally. If you run into an issue, include your OS version, display scaling, and the steps to reproduce it. [Report an issue](https://github.com/kultvio/shot-series/issues/new)
