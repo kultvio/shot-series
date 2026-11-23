@@ -6,9 +6,9 @@
   <p>English · <a href="README.ru.md">Русский</a></p>
 </div>
 
-![Illustration of the capture frame, F8 saving numbered screenshots, and the plus button creating a new series.](media/demo-en.gif)
+![Animated walkthrough showing a task being added and then marked complete. F8 saves each state as a numbered PNG.](media/demo-en.gif)
 
-ShotSeries keeps a resizable frame on screen while you work in the app underneath it. Press **F8** to capture the same area after each step, then use **+** to start a fresh series. It's built for collecting screenshots for tutorials, lab reports, and bug reports.
+Building a step-by-step guide? Select a region once, then press **F8** after each step. ShotSeries saves the screenshots in order as `1.png`, `2.png`, and so on in the current series folder.
 
 ## How it works
 
