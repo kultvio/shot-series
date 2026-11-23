@@ -2,6 +2,7 @@
 name = "shotseries"
 version = "0.1.1"
 edition = "2024"
+build = false
 
 [target.'cfg(windows)'.dependencies.windows-sys]
 version = "0.61.2"

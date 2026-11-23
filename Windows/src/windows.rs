@@ -10,6 +10,7 @@ use crate::{controls::{self, Controls, AREA_SIZE, CAPTURE, DIRECTORY_PATH, FOLDE
 
 const CLASS: windows_sys::core::PCWSTR = w!("ShotSeries.Controls");
 const TITLE: windows_sys::core::PCWSTR = w!("ShotSeries");
+const APP_ICON: windows_sys::core::PCWSTR = 1usize as _; // Resource ID from ShotSeries.rc
 const TRAY: u32 = WM_APP + 3;
 const TRAY_KEY_SELECT: u32 = NIN_SELECT | NINF_KEY;
 const OPEN: u32 = WM_APP + 4;
@@ -27,20 +28,16 @@ struct App {
     hotkey_id: i32,
     taskbar_message: u32,
     icon: HICON,
-    custom_icon: bool,
     status: String,
 }
 
 impl App {
     fn new() -> Self {
-        let artwork = include_bytes!("../../media/icon.png");
-        let mut icon = unsafe { CreateIconFromResourceEx(artwork.as_ptr(), artwork.len() as u32,
-                            1, 0x0003_0000, 32, 32, 0) };
-        let custom_icon = !icon.is_null();
-        if !custom_icon { icon = unsafe { LoadIconW(null_mut(), IDI_APPLICATION) }; }
+        let mut icon = unsafe { LoadIconW(GetModuleHandleW(null()), APP_ICON) };
+        if icon.is_null() { icon = unsafe { LoadIconW(null_mut(), IDI_APPLICATION) }; }
         Self { window: null_mut(), controls: None, overlay: None, settings: Settings::load(),
                folders: Vec::new(), hotkey_id: 0, taskbar_message: unsafe { RegisterWindowMessageW(w!("TaskbarCreated")) },
-               icon, custom_icon, status: String::new() }
+               icon, status: String::new() }
     }
 
     fn initialize(&mut self, window: HWND) {
@@ -426,6 +423,5 @@ unsafe fn event_loop() {
         Shell_NotifyIconW(NIM_DELETE, &app.tray_data());
         if app.hotkey_id != 0 { UnregisterHotKey(window, app.hotkey_id); }
         DestroyWindow(window);
-        if app.custom_icon { DestroyIcon(app.icon); }
     }
 }
