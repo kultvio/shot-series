@@ -49,6 +49,8 @@ cargo run --release --locked
 
 Cargo builds the executable at `Windows\target\release\shotseries.exe`, relative to the repository root. The local build is unsigned, so Smart App Control may block it depending on the PC's policy. [Microsoft's Smart App Control guide](https://learn.microsoft.com/windows/apps/develop/smart-app-control/overview)
 
+For the notification area controls and switching series, see the [Windows guide](Windows/README.md).
+
 ## Project layout
 
 | Platform | Implementation | Entry points |

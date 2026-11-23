@@ -49,6 +49,8 @@ cargo run --release --locked
 
 Cargo создаёт файл `Windows\target\release\shotseries.exe` относительно корня репозитория. Локальная сборка не подписана, поэтому «Интеллектуальное управление приложениями» может заблокировать запуск в зависимости от политики ПК. [Руководство Microsoft по Smart App Control](https://learn.microsoft.com/windows/apps/develop/smart-app-control/overview)
 
+Управление через область уведомлений и переключение серий описаны в [инструкции для Windows](Windows/README.ru.md).
+
 ## Структура проекта
 
 | Платформа | Технологии | Основные файлы |

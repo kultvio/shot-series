@@ -1,22 +1,24 @@
-# ShotSeries для Windows
+# ShotSeries for Windows
 
-Предварительная версия для Windows 11 x64. Приложение добавляет значок в область уведомлений и сохраняет выбранную область экрана в PNG по F8.
+English · [Русский](README.ru.md)
 
-1. Откройте `ShotSeries.exe`. Если окно скрыто, нажмите значок ShotSeries рядом с часами.
-2. Нажмите **Выделить область** и потяните мышью. По сторонам и углам рамки есть ручки. Esc или правый клик отменяют выделение.
-3. Выберите каталог и нажмите **+**. Текущие снимки попадут в `Серия 1`. Следующий **+** переключит сохранение на `Серия 2`.
-4. Нажмите **F8** несколько раз. В первой серии появятся `1.png`, `2.png` и далее. Клавишу можно изменить рядом с кнопкой **Снять кадр**.
+This preview targets Windows 11 x64. ShotSeries adds an icon to the notification area and saves the selected region as a PNG when you press **F8**.
 
-Клики и прокрутка проходят к рабочему окну везде, кроме ручек. Выделение привязано к одному дисплею. На момент снимка приложение на короткое время убирает собственные окна из кадра. Границы области и выбранная серия сохраняются между запусками.
+1. Open `ShotSeries.exe`. If the panel is hidden, click the ShotSeries icon next to the clock.
+2. Click **Select area** (**Выделить область**) and drag over the part of the screen you want to capture. Drag an edge or corner to resize the frame. Press Esc or right-click to cancel selection.
+3. Choose a parent folder and press **+**. In an empty folder, ShotSeries creates and selects `Серия 1` (Series 1). Press **+** again to start `Серия 2` (Series 2).
+4. Press **F8** after each step. The screenshots appear as `1.png`, `2.png`, and so on. Change the hotkey next to **Capture** (**Снять кадр**).
 
-Для выхода щёлкните правой кнопкой по значку в области уведомлений и выберите **Выйти**.
+Clicks and scrolling pass through the shade to the app underneath. The resize handles remain interactive. Each region belongs to one display. When taking a screenshot, ShotSeries briefly hides its own windows. The region and active series are saved between launches.
 
-## Сборка из исходников на Windows
+To quit, right-click the notification area icon and choose **Quit** (**Выйти**).
 
-Установите Rust 1.85 или новее и инструменты MSVC для сборки настольных приложений. Из папки `Windows` выполните:
+## Build from source on Windows
+
+Install Rust 1.85 or newer and Visual Studio Build Tools with the **Desktop development with C++** workload. Run the following command from the `Windows` folder.
 
 ```powershell
 cargo build --release --locked
 ```
 
-Файл появится в `target/release/shotseries.exe`.
+Cargo writes the executable to `target/release/shotseries.exe`.
